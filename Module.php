@@ -6,6 +6,8 @@ use PDO;
 use Phalcon\DI\DI;
 use Phalcon\Mvc\Micro\Collection;
 
+use Coppel\RAC\Utils\EncryptionUtil;
+
 class Module implements IModule
 {
     public function registerLoader($loader)
@@ -25,14 +27,15 @@ class Module implements IModule
 
         $lector->setPrefix('/api/lector')
             ->setHandler('\Coppel\Pck001Back\Controllers\LectorController')
-            -setLazy(true);
+            ->setLazy(true);
 
         $collection->setPrefix('/api')
             ->setHandler('\Coppel\Pck001Back\Controllers\ApiController')
             ->setLazy(true);
 
         $collection->get('/ejemplo', 'holaMundo');
-        $lector->get('/validarCambioPrecio', 'ValidaCambioPrecio')
+        $lector->post('/validarCambioPrecio', 'ValidaCambioPrecio');
+        $lector->post('/borrarRegistro', 'borrarRegistro');
         $lector->post('/validar','validarLector');
         // postman localhost/api/lector/validar  POST , validarLector()
 
@@ -49,11 +52,16 @@ class Module implements IModule
 
         $di->set('conexion', function () use ($di) {
             $config = $di->get('config')->db;
+            // Instanciar el servicio de encriptación
+            $encryptionService = new EncryptionUtil();
+            // Llamar a getEnc
+            $pwd = $encryptionService->getEnc($config->ENC_STR, $config->KEY_STR, $config->IV_STR);
 
             return new PDO(
                 "pgsql:host={$config->host};port={$config->port};dbname={$config->dbname};",
                 $config->username,
-                $config->password, [
+                $pwd,
+                [
                     PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
                     PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC
                 ]

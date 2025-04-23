@@ -11,7 +11,7 @@
         }
     ],
     "require": {
-        "oc/rac": "^2.1.2",
+        "oc/rac": "^2.1.1",
         "katzgrau/klogger": "^1.2.1"
     },
     "repositories": [

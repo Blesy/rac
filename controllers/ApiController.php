@@ -25,7 +25,7 @@ class ApiController extends RESTController
 
         $data = $this->request->getJsonRawBody();
         if(!$data->numTienda){
-            throw new \InvalidArgumentException("El campo tienda, no es valido.")
+            throw new \InvalidArgumentException("El campo tienda, no es valido.");
         }
         try {
 
