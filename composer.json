@@ -1,0 +1,23 @@
+{
+    "name": "coppel/pck-001-back",
+    "version": "1.0.0",
+    "description": "API de PCK001",
+    "type": "library",
+    "license": "Propietary",
+    "authors": [
+        {
+            "name": "Emir Cardenaz",
+            "email": "sistemas@coppel.com"
+        }
+    ],
+    "require": {
+        "oc/rac": "^2.1.2",
+        "katzgrau/klogger": "^1.2.1"
+    },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://Coppel-Retail@dev.azure.com/Coppel-Retail/Frameworks_Coppel/_git/PHP-RAC"
+        }
+    ]
+}

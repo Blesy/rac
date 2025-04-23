@@ -1,0 +1,15 @@
+{
+    "db": {
+        "dbname": "bodega",
+        "host": "10.201.61.10",
+        "port": "5432",
+        "username": "sysprogsropa",
+        "ENC_STR": "foSZIFrCpg04Qys0SkgkPx1ityZ9b3Zn3QNk0Yo9Hdo=",
+        "KEY_STR": "o5eZnR+4GQzak3NctDattQ2iwzPsc7t4CfC+RKM0M+k=",
+        "IV_STR": "KYajCdLlCg1+4lEJ"
+    },
+    "uriException": [],
+    "auth": "https://authentication.coppel.io/api/sso/",
+    "authOption": "authAzure",
+    "authAzure": "https://stage-apigee.coppel.space/party-identity/oauth2/v1/validate"
+}
