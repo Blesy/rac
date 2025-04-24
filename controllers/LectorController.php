@@ -115,4 +115,31 @@ class LectorController extends RESTController
         }
         return $response;
     }
+
+    public function obtenerIdFEmpleado()
+    {
+        $response = null;
+        $data = $this->request->getJsonRawBody();
+        try {
+            if (!$data->sIdEmpleado && !$data->sNumEmpleado) {
+                throw new \InvalidArgumentException("El campo Id empleado, no es valido.");
+            }
+          
+            
+            $response = $this->modelo->obtenerIdFEmpleado( idEmpleado: $data->sIdEmpleado,   numEmpleado: $data->sNumEmpleado);
+        } catch (Exception $ex) {
+            $mensaje = $ex->getMessage();
+            $this->logger->error('[' . __METHOD__ . "] Excepción > $mensaje");
+            throw new HTTPException(
+                'No fue posible completar su solicitud, intente de nuevo o contacte con el administrador.',
+                500,
+                [
+                    'dev' => $mensaje,
+                    'internalCode' => 'SIE1000',
+                    'more' => 'Verificar conexión con la base de datos.'
+                ]
+            );
+        }
+        return $response;
+    }
 }

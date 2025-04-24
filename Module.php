@@ -35,6 +35,7 @@ class Module implements IModule
 
         $collection->get('/ejemplo', 'holaMundo');
         $lector->post('/validarCambioPrecio', 'ValidaCambioPrecio');
+        $lector->post('/obtenerIdFEmpleado', 'obtenerIdFEmpleado');
         $lector->post('/borrarRegistro', 'borrarRegistro');
         $lector->post('/validar','validarLector');
         // postman localhost/api/lector/validar  POST , validarLector()

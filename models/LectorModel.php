@@ -121,7 +121,7 @@ class LectorModel extends Model
     /**
      * Función paraotener el identificador del empleado ( previa idenNumEmpleado)
      */
-    public function obtenerIdEmpleado($idEmpleado, $numEmpleado)
+    public function obtenerIdFEmpleado($idEmpleado, $numEmpleado) 
     {
         $condicion = '';
         if ($idEmpleado) {
@@ -130,6 +130,7 @@ class LectorModel extends Model
             $condicion = "numEmpleado = $numEmpleado";
         }
         $query = "select identificacion, nomempleado, numempleado FROM maeempleados WHERE " . $condicion;
+
 
         $db = DI::getDefault()->get('conexion');
 
@@ -142,22 +143,24 @@ class LectorModel extends Model
             throw new \Exception("Error obtener los datos");
             
         }
-        if (!$datos['nomEmpleado'] || $datos['nomEmpleado'] == "" ) {
-            throw new \Exception("No se encontraron los datos del usuario ( id: $idEmpleado , numEpleado: $numEmpleado)");   
-        }
+         if (!$datos['nomempleado'] || $datos['nomempleado'] == "" ) {
+            throw new \Exception(" - No se encontraron los datos del usuario ( id: $idEmpleado , numEmpleado: $numEmpleado)");   
+         }
         
         
         $datosEmpleado = [
             "nomEmpleado" => $datos['nomempleado']
             ,
-            'idEmpleado' => $datos['identificador']
+            'idEmpleado' => $datos['identificacion']
             ,
-            'numEmpleado' => $datos['numepleado']
+            'numEmpleado' => $datos['numempleado']
         ];
 
 
        
         return $datosEmpleado;
     }
+    
+    
 
 }
