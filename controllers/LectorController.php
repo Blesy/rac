@@ -142,4 +142,104 @@ class LectorController extends RESTController
         }
         return $response;
     }
+
+    public function buscarGuiaTraspaso() //No hay datos en bodega sobre la tabla que consume 
+    {
+        $response = null;
+        $data = $this->request->getJsonRawBody();
+        try {
+            if (!$data->scGuia) {
+                throw new \InvalidArgumentException("El campo guia, no es valido.");
+            }
+            $response = $this->modelo->buscarGuiaTraspaso( $data->scGuia );
+        } catch (Exception $ex) {
+            $mensaje = $ex->getMessage();
+            $this->logger->error('[' . __METHOD__ . "] Excepción > $mensaje");
+            throw new HTTPException(
+                'No fue posible completar su solicitud, intente de nuevo o contacte con el administrador.',
+                500,
+                [
+                    'dev' => $mensaje,
+                    'internalCode' => 'SIE1000',
+                    'more' => 'Verificar conexión con la base de datos.'
+                ]
+            );
+        }
+        return $response;
+    }
+
+    public function buscarGuiaTransferencia()  
+    {
+        $response = null;
+        $data = $this->request->getJsonRawBody();
+        try {
+            if (!$data->scGuia) {
+                throw new \InvalidArgumentException("El campo guia, no es valido.");
+            }
+            $response = $this->modelo->buscarGuiaTransferencia( $data->scGuia );
+        } catch (Exception $ex) {
+            $mensaje = $ex->getMessage();
+            $this->logger->error('[' . __METHOD__ . "] Excepción > $mensaje");
+            throw new HTTPException(
+                'No fue posible completar su solicitud, intente de nuevo o contacte con el administrador.',
+                500,
+                [
+                    'dev' => $mensaje,
+                    'internalCode' => 'SIE1000',
+                    'more' => 'Verificar conexión con la base de datos.'
+                ]
+            );
+        }
+        return $response;
+    }
+
+    public function buscarGuiaCrossBodega()  
+    {
+        $response = null;
+        $data = $this->request->getJsonRawBody();
+        try {
+            if (!$data->scGuia) {
+                throw new \InvalidArgumentException("El campo guia, no es valido.");
+            }
+            $response = $this->modelo->buscarGuiaCrossBodega( $data->scGuia );
+        } catch (Exception $ex) {
+            $mensaje = $ex->getMessage();
+            $this->logger->error('[' . __METHOD__ . "] Excepción > $mensaje");
+            throw new HTTPException(
+                'No fue posible completar su solicitud, intente de nuevo o contacte con el administrador.',
+                500,
+                [
+                    'dev' => $mensaje,
+                    'internalCode' => 'SIE1000',
+                    'more' => 'Verificar conexión con la base de datos.'
+                ]
+            );
+        }
+        return $response;
+    }
+
+    public function obtenerBodEnvia()  
+    {
+        $response = null;
+        $data = $this->request->getJsonRawBody();
+        try {
+            if (!$data->cLetra) {
+                throw new \InvalidArgumentException("El campo letra, no es valido.");
+            }
+            $response = $this->modelo->obtenerBodEnvia( cLetra: $data->cLetra );
+        } catch (Exception $ex) {
+            $mensaje = $ex->getMessage();
+            $this->logger->error('[' . __METHOD__ . "] Excepción > $mensaje");
+            throw new HTTPException(
+                'No fue posible completar su solicitud, intente de nuevo o contacte con el administrador.',
+                500,
+                [
+                    'dev' => $mensaje,
+                    'internalCode' => 'SIE1000',
+                    'more' => 'Verificar conexión con la base de datos.'
+                ]
+            );
+        }
+        return $response;
+    }
 }

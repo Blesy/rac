@@ -2,6 +2,7 @@
 
 namespace Coppel\Pck001Back\Models;
 
+use InvalidArgumentException;
 use Phalcon\DI\DI;
 use Phalcon\Mvc\Model;
 
@@ -160,7 +161,135 @@ class LectorModel extends Model
        
         return $datosEmpleado;
     }
-    
+    public function buscarGuiaTraspaso( $cGuia): bool  //No hay datos en bodega sobre la tabla que consume movGuiaTraspasos
+    {
+        $query = "select nomGuia from movGuiaTraspasos where btrim(nomguia)=('$cGuia')";
+
+        $db = DI::getDefault()->get('conexion');
+
+        $statement = $db->prepare($query);
+
+        try{
+        $statement->execute();
+
+        $fetchData = $statement->fetch();
+
+        if ($fetchData == false) {
+            throw new \Exception( $query ."No existe informacion de este traspaso para realizar su recepcion, favor de checar");
+        }
+
+        if ($fetchData['nomguia'] ) {
+            return true;
+        }
+        return false;
+        }
+        catch (\Exception $e) {
+            $this->logger->error(''. $e->getMessage());
+            throw new \Exception("Error al ejecutar la consulta #14");  
+
+        }
+        
+       
+    }
+
+    public function buscarGuiaTransferencia( $cGuia): bool  
+    {
+        $query = "select nomGuia from movGuiaTransferencias where btrim(nomguia)=('$cGuia')";
+
+        $db = DI::getDefault()->get('conexion');
+
+        $statement = $db->prepare($query);
+       
+        try{
+
+            $statement->execute();
+
+            $fetchData = $statement->fetch();
+            
+            if ($fetchData == false) {
+                throw new \Exception( $query ."No existe informacion de este transferencia para realizar su recepcion, favor de checar");
+            }
+
+            if ($fetchData['nomguia'] ) {
+                return true;
+            }
+            return false;
+
+        }
+        catch(\Exception $e){
+            $this->logger->error(''. $e->getMessage());
+            throw new \Exception("Error al ejecutar la consulta #15");     
+        }
+
+     
+    }
+    public function buscarGuiaCrossBodega( $cGuia): bool  //sin informacion en movGuiaCrossBodega
+    {
+        
+        $query = "select nomGuia from movGuiaCrossBodega where btrim(nomguia)=('$cGuia')";
+
+        $db = DI::getDefault()->get('conexion');
+
+        $statement = $db->prepare($query);
+       
+        try{
+
+            $statement->execute();
+
+            $fetchData = $statement->fetch();
+            
+            if ($fetchData == false) {
+                throw new \Exception( $query ."No existe informacion de este crossdocking para realizar su recepcion, favor de checar");
+            }
+
+            if ($fetchData['nomguia'] ) {
+                return true;
+            }
+            return false;
+
+        }
+        catch(\Exception $e){
+            $this->logger->error(''. $e->getMessage());
+            throw new \Exception("Error al ejecutar la consulta #16");     
+        }
+
+     
+    }
+    public function obtenerBodEnvia( $cLetra): array
+    {
+         
+        $query = "select numbodega from catbodegas where letrabodega=('$cLetra')";
+
+        $db = DI::getDefault()->get('conexion');
+          
+        $statement = $db->prepare($query);
+        $statement->execute();
+        $datos = $statement->fetch();
+
+        try{
+        if ($datos == false) {
+            throw new InvalidArgumentException("Ingresar una letra correcta");
+        }        
+        }
+        catch(\Exception $e ){
+            $this->logger->error(''. $e->getMessage());
+            throw new \Exception("Error al ejecutar consulta # 23");     
+        }
+        catch(InvalidArgumentException $e) {
+            throw new InvalidArgumentException("Ingresar una letra correcta");
+
+        }
+        $datosBodega = [
+            "Bodega" => $datos['numbodega']
+           
+        ];
+        
+
+
+       
+        return $datosBodega;
+     
+    }
     
 
 }
